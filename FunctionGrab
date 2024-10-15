@@ -1,0 +1,32 @@
+// --- TWR to Throttle (ref. Earth) --- //
+
+local function Gravitational_Acceleration{
+    set fcnGA_Gravitational_Parameter to body:mu.
+    set fcnGA_Radius_Body to body:radius.
+    set fcnGA_Small_R to ship:altitude.
+
+    return ((fcnGA_Gravitational_parameter)/((fcnGA_Radius_Body+fcnGA_Small_R)^2)).
+}
+
+local function thrust_to_weight_ratio{
+
+    set fcn_twr_ship_mass to ship:mass.
+    lock fcn_twr_ship_thrust to ship:maxthrust.
+
+    if fcn_twr_ship_thrust = 0{
+        lock fcn_twr_ship_thrust to 1.        
+    }
+
+    lock fcn_twr_ship_twr to fcn_twr_ship_thrust/(fcn_twr_ship_mass*Gravitational_Acceleration).
+
+    return fcn_twr_ship_twr.
+}
+
+local function thrust_to_weight_throttle_ctrl_calc{
+
+    parameter fcn_twrctrl_ship_reqtwr is 1.
+
+    lock fcn_twrctrl_ship_reqthrot to (fcn_twrctrl_ship_reqtwr/thrust_to_weight_ratio).
+
+    return fcn_twrctrl_ship_reqthrot.
+}
