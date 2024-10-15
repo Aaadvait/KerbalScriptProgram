@@ -1,4 +1,4 @@
-// --- TWR to Throttle (ref. Earth) --- //
+// --- TWR to Throttle (ref. Planet) --- //
 
 local function Gravitational_Acceleration{
     set fcnGA_Gravitational_Parameter to body:mu.
